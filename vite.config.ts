@@ -6,6 +6,8 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     const apiProxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:8000';
     return {
+      // Set base path for proper routing on Vercel
+      base: '/',
       server: {
         port: 5173,
         host: '0.0.0.0',

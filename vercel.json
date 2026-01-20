@@ -4,7 +4,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/((?!api|_next/static|_next/image|favicon.ico|assets).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
