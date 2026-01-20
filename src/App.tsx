@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AuthenticateWithRedirectCallback } from '@clerk/clerk-react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, matchPath } from 'react-router-dom';
 import Sidebar from './components/Common/Sidebar';
 import Header from './components/Common/Header';
 import Home from './pages/Home';
@@ -18,11 +18,11 @@ import { LanguageProvider } from './LanguageContext';
 
 const AppContent: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({ isDarkMode, toggleTheme }) => {
   const location = useLocation();
-  const isCanvasPage = location.pathname === '/canvas';
-  const isLoginPage = location.pathname === '/' || location.pathname === '/login';
-  const isSsoCallbackPage = location.pathname === '/sso-callback';
-  const isSignUpPage = location.pathname === '/signup';
-  const isForgotPassPage = location.pathname === '/forgot-pass';
+  const isCanvasPage = matchPath('/canvas', location.pathname);
+  const isLoginPage = matchPath('/', location.pathname) || matchPath('/login', location.pathname);
+  const isSsoCallbackPage = matchPath('/sso-callback', location.pathname);
+  const isSignUpPage = matchPath('/signup', location.pathname);
+  const isForgotPassPage = matchPath('/forgot-pass', location.pathname);
 
   // If it's a full-screen page like Canvas or Login, we don't show the standard sidebar/header layout
   if (isCanvasPage) {
@@ -57,12 +57,18 @@ const AppContent: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = (
             <Route path="/signup" element={<SignUp isDarkMode={isDarkMode} toggleTheme={toggleTheme} />} />
             <Route path="/forgot-pass" element={<ForgotPass isDarkMode={isDarkMode} toggleTheme={toggleTheme} />} />
             <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
+            <Route path="/sso-callback/*" element={<AuthenticateWithRedirectCallback />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/home/*" element={<Home />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/*" element={<Projects />} />
             <Route path="/templates" element={<Templates />} />
+            <Route path="/templates/*" element={<Templates />} />
             <Route path="/summary" element={<Summary />} />
+            <Route path="/summary/*" element={<Summary />} />
             <Route path="/summary/:resultId" element={<ResultDetailPage />} />
             <Route path="/results" element={<ResultsPage />} />
+            <Route path="/results/*" element={<ResultsPage />} />
             <Route path="/results/:resultId" element={<ResultDetailPage />} />
           </Routes>
         </main>
